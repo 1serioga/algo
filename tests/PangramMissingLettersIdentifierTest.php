@@ -19,7 +19,7 @@ final class PangramMissingLettersIdentifierTest extends TestCase
      * @param string $input
      * @param string $expected
      */
-    public function testItShouldIdentifyMissingLettersOfBeingPangram(string $expected, string $input): void
+    public function testItShouldIdentifyMissingLetters(string $expected, string $input): void
     {
         $output = $this->identifier->identify($input);
         $this->assertEquals($expected, $output);
