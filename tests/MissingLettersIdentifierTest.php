@@ -1,18 +1,19 @@
 <?php
 declare(strict_types=1);
 
+use App\Pangram\MissingLettersIdentifier;
 use PHPUnit\Framework\TestCase;
 
-final class PangramMissingLettersIdentifierTest extends TestCase
+final class MissingLettersIdentifierTest extends TestCase
 {
     /**
-     * @var PangramMissingLettersIdentifier
+     * @var MissingLettersIdentifier
      */
     private $identifier;
 
     public function setUp()
     {
-        $this->identifier = new PangramMissingLettersIdentifier;
+        $this->identifier = new MissingLettersIdentifier;
     }
     /**
      * @dataProvider dataProvider

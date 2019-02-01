@@ -1,7 +1,9 @@
 <?php
 declare(strict_types=1);
 
-final class PangramMissingLettersIdentifier {
+namespace App\Pangram;
+
+final class MissingLettersIdentifier {
 
     const PARTITION_SIZE = 50;
     const ALPHABET = [
@@ -41,6 +43,7 @@ final class PangramMissingLettersIdentifier {
             $partition = substr($input, $i * self::PARTITION_SIZE, self::PARTITION_SIZE);
             $partition = strtolower($partition);
             $partition = str_split($partition);
+            $partition = array_unique($partition);
             $missingLetters = array_diff($missingLetters, $partition);
             if (empty($missingLetters)) {
                 return '';
