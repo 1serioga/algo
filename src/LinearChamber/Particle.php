@@ -12,24 +12,28 @@ final class Particle {
     private $type;
     /** @var int */
     private $position;
+    /** @var int */
+    private $speed;
 
     /**
      * @param string $type
      * @param int $position
+     * @param int $speed
      */
-    public function __construct(string $type, int $position)
+    public function __construct(string $type, int $position, int $speed)
     {
         $this->type = $type;
         $this->position = $position;
+        $this->speed = $speed;
     }
 
-    public function move(int $speed): void
+    public function move(): void
     {
         if ($this->type === self::TYPE_HEADING_LEFT) {
-            $this->position -= $speed;
+            $this->position -= $this->speed;
             return;
         }
-        $this->position += $speed;
+        $this->position += $this->speed;
     }
 
     public function position(): int {

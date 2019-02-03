@@ -5,54 +5,30 @@ namespace App\LinearChamber;
 
 final class Animator {
 
+    const PARTITION_SIZE = 50;
+
+    /**
+     * @param int $speed
+     * @param string $init
+     * @return array
+     */
     public function animate(int $speed, string $init): array
     {
-        $steps = [];
         $size = strlen($init);
-        $particles = $this->getParticles($init);
-        $steps[] = $this->createStep($size, $particles);
-        while (!empty($particles)) {
-            foreach ($particles as $key => $particle) {
-                $particle->move($speed);
-                if (!$particle->isInsideChamber($size)) {
-                    unset($particles[$key]);
+        $chamber = new Chamber($size);
+        $partitionsNumber = (int) ceil($size / self::PARTITION_SIZE);
+        for ($i = 0; $i < $partitionsNumber; $i++) {
+            $partition = substr($init, $i * self::PARTITION_SIZE, self::PARTITION_SIZE);
+            $locations = str_split($partition);
+            foreach ($locations as $position => $type) {
+                if ($type !== Particle::TYPE_HEADING_RIGHT && $type !== Particle::TYPE_HEADING_LEFT) {
+                    continue;
                 }
-            }
-            $steps[] = $this->createStep($size, $particles);
-        }
-        return $steps;
-    }
-
-    /**
-     * @param string $init
-     * @return array|Particle[]
-     */
-    private function getParticles(string $init): array
-    {
-        $particles = [];
-        $locations = str_split($init);
-        foreach ($locations as $position => $type) {
-            if ($type !== Particle::TYPE_HEADING_RIGHT && $type !== Particle::TYPE_HEADING_LEFT) {
-                continue;
-            }
-            $particles[] = new Particle($type, $position);
-        }
-        return $particles;
-    }
-
-    /**
-     * @param int $size
-     * @param array|Particle[] $particles
-     * @return string
-     */
-    private function createStep(int $size, array $particles): string {
-        $step = array_fill(0, $size, '.');
-        foreach ($particles as $key => $particle) {
-            if ($particle->isInsideChamber($size)) {
-                $step[$particle->position()] = 'X';
+                $chamber->addParticle(
+                    new Particle($type, ($i*self::PARTITION_SIZE + $position), $speed)
+                );
             }
         }
-        return implode('', $step);
+        return $chamber->getSteps();
     }
-
 }

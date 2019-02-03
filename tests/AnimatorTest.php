@@ -22,7 +22,7 @@ final class AnimatorTest extends TestCase
      * @param string $init
      * @param array $expected
      */
-    public function testItShouldIdentifyMissingLetters(int $speed, string $init, array $expected): void
+    public function testItShouldReturnStepsFromLinearChamber(int $speed, string $init, array $expected): void
     {
         $output = $this->animator->animate($speed, $init);
         $this->assertEquals($expected, $output);
